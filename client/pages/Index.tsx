@@ -354,7 +354,7 @@ export default function Index() {
                 <span className="text-foreground/90">Infrastructure</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-muted-foreground/50 max-w-xl leading-relaxed mb-8 animate-reveal-delay-2 font-light">
+              <p className="text-base sm:text-lg text-muted-foreground/60 max-w-xl leading-relaxed mb-8 animate-reveal-delay-2 font-light">
                 DevOps engineer with 5+ years of production experience architecting
                 cloud-native solutions, automating workflows, and building secure,
                 scalable systems.
