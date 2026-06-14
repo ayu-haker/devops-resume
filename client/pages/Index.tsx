@@ -1,4 +1,5 @@
 import { useMemo, useEffect, useRef, useState } from "react";
+import Hero3D from "@/components/Hero3D";
 import {
   ExternalLink,
   Github,
@@ -325,9 +326,11 @@ export default function Index() {
         <Navbar />
 
         {/* Hero Section */}
-        <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden min-h-[90vh] flex items-center">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] via-transparent to-transparent pointer-events-none" />
-          <div className="max-w-7xl mx-auto relative">
+          <Hero3D />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none z-[1]" />
+          <div className="max-w-7xl mx-auto relative z-[2]">
             <div className="max-w-4xl">
               <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground/60 mb-6 animate-reveal">
                 <Terminal className="w-3.5 h-3.5 text-primary" />
