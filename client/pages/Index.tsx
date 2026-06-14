@@ -109,11 +109,11 @@ export default function Index() {
                 Building Resilient<br />Infrastructure at Scale
               </h1>
               
-              <div className="text-xs text-muted-foreground space-y-1 max-w-2xl">
+              <div className="text-xs space-y-1 max-w-2xl" style={{textShadow: '0 0 4px rgba(0,0,0,0.8)'}}>
                 <div><span className="text-secondary">#!/bin/bash</span></div>
-                <div># Kubernetes | Docker | CI/CD | Cloud Infrastructure</div>
-                <div># 5+ years production experience | 500+ deployments</div>
-                <div># Open source | Cybersecurity | Linux &amp; DevOps</div>
+                <div className="text-foreground"># Kubernetes | Docker | CI/CD | Cloud Infrastructure</div>
+                <div className="text-foreground"># 5+ years production experience | 500+ deployments</div>
+                <div className="text-foreground"># Open source | Cybersecurity | Linux &amp; DevOps</div>
               </div>
               
               <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
