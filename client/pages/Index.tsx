@@ -1,14 +1,201 @@
-import { ArrowRight, Code2, GitBranch, Container, Cloud, Shield, Zap, Terminal, ExternalLink } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
+import {
+  ExternalLink,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Terminal,
+  Download,
+  ChevronRight,
+  Layers,
+  Shield,
+  Cloud,
+  Code2,
+  GitBranch,
+  Container,
+  Zap,
+  Monitor,
+  Server,
+  Cpu,
+  Database,
+  Globe,
+  Lock,
+  Activity,
+  Users,
+  Calendar,
+  ArrowUpRight,
+  Star,
+  BookOpen,
+  Award,
+  Clock,
+  Sparkles,
+  Network,
+  HardDrive,
+  Settings,
+  Copy,
+  Check,
+  HeartHandshake,
+} from "lucide-react";
+
+const BinaryRain = () => {
+  const columns = useMemo(() =>
+    Array.from({ length: 12 }, () => {
+      const len = Math.floor(Math.random() * 40) + 80;
+      return Array.from({ length: len }, () => Math.floor(Math.random() * 2)).join('\n');
+    }), []
+  );
+  return (
+    <div className="binary-background">
+      <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+        <source src="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F3bc0c79627104715bfbf0026a4e6c4c7?alt=media&token=16c3eb4d-0f8d-4fab-bcb9-c3318a6c8d61&apiKey=79769d392e2d4adaafd2450bdf15ec60" type="video/mp4" />
+      </video>
+      {columns.map((b, i) => <div key={i} className="binary-column">{b}</div>)}
+    </div>
+  );
+};
+
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <nav className={`sticky top-0 z-50 transition-all duration-500 ${
+      scrolled ? 'bg-[#050505]/95 backdrop-blur-xl shadow-lg shadow-primary/5' : 'bg-[#050505]/80 backdrop-blur-md'
+    } border-b border-border/30`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
+          <span className="text-foreground font-bold text-sm font-mono tracking-tight">
+            <span className="text-primary">ayu-haker</span>
+            <span className="text-muted-foreground">/</span>
+            <span className="text-muted-foreground">devops</span>
+          </span>
+        </div>
+        <div className="hidden md:flex items-center gap-6">
+          {['about', 'experience', 'skills', 'projects', 'contact'].map(s => (
+            <a key={s} href={`#${s}`}
+              className="text-xs font-mono text-muted-foreground hover:text-primary transition-all duration-300 relative group uppercase tracking-wider">
+              ./{s}
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const SectionHeader = ({ cmd, title, subtitle }: { cmd: string; title: string; subtitle?: string }) => (
+  <div className="mb-12 space-y-2">
+    <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground/60 mb-4">
+      <span className="text-primary">$</span>
+      <span className="text-muted-foreground/40">{cmd}</span>
+      <span className="animate-terminal-blink border-r-2 border-primary h-4" />
+    </div>
+    <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
+      <span className="gradient-text-multi">{title}</span>
+    </h2>
+    {subtitle && <p className="text-sm text-muted-foreground/60 font-mono">{subtitle}</p>}
+    <div className="section-divider mt-4" />
+  </div>
+);
+
+const AnimatedSection = ({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) => (
+  <section id={id} className={`py-20 px-4 sm:px-6 lg:px-8 border-b border-border/20 ${className}`}>
+    <div className="max-w-7xl mx-auto animate-reveal">
+      {children}
+    </div>
+  </section>
+);
+
+const StatCard = ({ value, label, color = "text-primary" }: { value: string; label: string; color?: string }) => (
+  <div className="terminal-card p-5 text-center group cursor-default">
+    <div className={`text-2xl sm:text-3xl font-black ${color} mb-1 font-mono`}>{value}</div>
+    <div className="text-xs text-muted-foreground/60 font-mono uppercase tracking-wider">{label}</div>
+  </div>
+);
+
+const ExperienceCard = ({
+  role, company, period, description, tags, type
+}: {
+  role: string; company: string; period: string; description: string; tags: string[]; type: string;
+}) => (
+  <div className="terminal-card p-6 group">
+    <div className="flex items-start justify-between mb-3 flex-wrap gap-2">
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <span className="w-2 h-2 rounded-full bg-secondary animate-pulse-glow-secondary" />
+          <span className="text-xs font-mono text-secondary uppercase tracking-wider">{type}</span>
+        </div>
+        <h3 className="text-lg font-bold text-foreground">{role}</h3>
+        <p className="text-sm text-muted-foreground/80 font-mono">{company}</p>
+      </div>
+      <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground/50 bg-muted/50 px-3 py-1.5 rounded-full">
+        <Calendar className="w-3 h-3" />
+        {period}
+      </div>
+    </div>
+    <p className="text-sm text-muted-foreground/70 leading-relaxed mb-4">{description}</p>
+    <div className="flex flex-wrap gap-2">
+      {tags.map((t, i) => (
+        <span key={i} className="tech-badge text-[10px]">{t}</span>
+      ))}
+    </div>
+  </div>
+);
+
+const SkillBar = ({ name, level, color = "bg-primary" }: { name: string; level: number; color?: string }) => (
+  <div className="group">
+    <div className="flex justify-between items-center mb-1.5">
+      <span className="text-xs font-mono text-muted-foreground/80 group-hover:text-foreground transition-colors">{name}</span>
+      <span className="text-[10px] font-mono text-muted-foreground/40">{level}%</span>
+    </div>
+    <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
+      <div className={`h-full rounded-full ${color} transition-all duration-1000 relative`}
+        style={{ width: `${level}%` }}>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+      </div>
+    </div>
+  </div>
+);
+
+const ProjectCard = ({ project, idx }: { project: any; idx: number }) => (
+  <a href={project.link} target="_blank" rel="noopener noreferrer"
+    className={`terminal-card p-6 group cursor-pointer ${idx === 0 ? 'md:col-span-2' : ''}`}>
+    <div className="flex items-start justify-between mb-3">
+      <div className="flex-1">
+        <div className="flex items-center gap-2 mb-1">
+          <span className={`w-2 h-2 rounded-full ${project.dotColor || 'bg-primary'} animate-pulse`} />
+          <span className={`text-xs font-mono font-bold uppercase tracking-wider ${project.color}`}>{project.name}</span>
+        </div>
+        <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">{project.title}</h3>
+      </div>
+      <ArrowUpRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 flex-shrink-0" />
+    </div>
+    <p className="text-sm text-muted-foreground/60 leading-relaxed mb-4 line-clamp-2">{project.description}</p>
+    <div className="flex flex-wrap gap-1.5">
+      {project.tech.map((t: string, i: number) => (
+        <span key={i} className="text-[10px] font-mono px-2 py-1 rounded bg-muted/30 text-muted-foreground/60 border border-border/30">
+          {t}
+        </span>
+      ))}
+    </div>
+  </a>
+);
 
 export default function Index() {
-  // Generate random binary sequences
-  const binaryColumns = useMemo(() => {
-    return Array.from({ length: 10 }, () => {
-      const length = Math.floor(Math.random() * 50) + 100;
-      return Array.from({ length }, () => Math.floor(Math.random() * 2)).join('\n');
-    });
-  }, []);
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText('ayushmanbosuroy@gmail.com');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const projects = [
     {
@@ -17,7 +204,8 @@ export default function Index() {
       description: "Predictive failure recovery pipeline with AI-powered automation. Automatically detects and recovers from infrastructure issues before they impact users.",
       link: "https://github.com/ayu-haker/sh-pdops",
       tech: ["Python", "AI/ML", "Kubernetes", "Automation"],
-      color: "text-primary"
+      color: "text-primary",
+      dotColor: "bg-primary"
     },
     {
       name: "java-k8s-microservices",
@@ -25,7 +213,8 @@ export default function Index() {
       description: "Production-ready Java microservices deployed with Kubernetes. Demonstrates containerization, orchestration, and microservices best practices.",
       link: "https://github.com/ayu-haker/java-k8s-microservices",
       tech: ["Java", "Docker", "Kubernetes", "Microservices"],
-      color: "text-secondary"
+      color: "text-secondary",
+      dotColor: "bg-secondary"
     },
     {
       name: "dockwarden",
@@ -33,7 +222,8 @@ export default function Index() {
       description: "High-performance terminal UI for Docker DevOps workflows. Built in Go with state machine navigation for seamless Docker container management.",
       link: "https://github.com/ayu-haker/dockwarden",
       tech: ["Go", "Docker", "TUI", "DevOps"],
-      color: "text-accent"
+      color: "text-accent",
+      dotColor: "bg-accent"
     },
     {
       name: "grafana-monitoring",
@@ -41,406 +231,391 @@ export default function Index() {
       description: "Complete observability stack with Grafana dashboards. Enables real-time monitoring, alerting, and visualization of complex infrastructure.",
       link: "https://github.com/ayu-haker/grafana-monitoring",
       tech: ["Grafana", "Prometheus", "Monitoring", "Observability"],
-      color: "text-primary"
+      color: "text-primary",
+      dotColor: "bg-primary"
     }
   ];
 
+  const experiences = [
+    {
+      role: "Python Developer Trainee",
+      company: "Zeethron Network",
+      period: "Jun 2025 - Jul 2025",
+      description: "Developed automation scripts and backend services using Python. Gained hands-on experience with network programming and system integration.",
+      tags: ["Python", "Automation", "Backend", "Networking"],
+      type: "Internship"
+    },
+    {
+      role: "Cyber Security Job Simulation",
+      company: "Deloitte Australia",
+      period: "2025",
+      description: "Completed a realistic cyber security job simulation covering threat analysis, incident response, and security assessment methodologies.",
+      tags: ["Security", "Incident Response", "Threat Analysis", "Compliance"],
+      type: "Simulation"
+    },
+    {
+      role: "Solution Architecture Job Simulation",
+      company: "AWS APAC",
+      period: "2025",
+      description: "Built cloud architecture solutions using AWS services. Designed scalable, fault-tolerant systems and implemented cost-optimization strategies.",
+      tags: ["AWS", "Cloud Architecture", "Scalability", "Cost Optimization"],
+      type: "Simulation"
+    }
+  ];
+
+  const competencies = [
+    { icon: <Cloud className="w-4 h-4" />, title: "Cloud Platforms", color: "text-primary", borderColor: "border-primary/30", hoverColor: "hover:border-primary",
+      items: ["AWS (EC2, EKS, RDS, Lambda, S3)", "Google Cloud (GKE, Cloud Run)", "Azure, DigitalOcean"] },
+    { icon: <Container className="w-4 h-4" />, title: "Containers & Orchestration", color: "text-secondary", borderColor: "border-secondary/30", hoverColor: "hover:border-secondary",
+      items: ["Docker, Kubernetes (EKS/GKE/AKS)", "Helm, Operators", "Container security & scanning"] },
+    { icon: <GitBranch className="w-4 h-4" />, title: "CI/CD & Automation", color: "text-accent", borderColor: "border-accent/30", hoverColor: "hover:border-accent",
+      items: ["GitLab CI, GitHub Actions, Jenkins", "Terraform, IaC", "Deployment automation"] },
+    { icon: <Activity className="w-4 h-4" />, title: "Monitoring & Observability", color: "text-primary", borderColor: "border-primary/30", hoverColor: "hover:border-primary",
+      items: ["Prometheus, Grafana", "ELK Stack, DataDog", "Alerting & logging"] },
+    { icon: <Shield className="w-4 h-4" />, title: "Security & Compliance", color: "text-secondary", borderColor: "border-secondary/30", hoverColor: "hover:border-secondary",
+      items: ["Network security, firewalls", "Secret management (Vault)", "SIEM, compliance automation"] },
+    { icon: <Code2 className="w-4 h-4" />, title: "Programming & Scripting", color: "text-accent", borderColor: "border-accent/30", hoverColor: "hover:border-accent",
+      items: ["Python, Bash, Go", "Java, JavaScript, TypeScript", "Infrastructure automation"] },
+  ];
+
+  const skillsData = [
+    { category: "Languages", skills: [
+      { name: "Python", level: 90 }, { name: "Go", level: 75 }, { name: "Java", level: 80 },
+      { name: "JavaScript/TS", level: 85 }, { name: "Bash", level: 88 }, { name: "Rust", level: 50 }
+    ]},
+    { category: "Cloud & DevOps", skills: [
+      { name: "AWS", level: 92 }, { name: "Docker", level: 95 }, { name: "Kubernetes", level: 85 },
+      { name: "Terraform", level: 80 }, { name: "CI/CD", level: 90 }, { name: "Linux", level: 88 }
+    ]}
+  ];
+
+  const techStackGroups = [
+    { title: "💻 Languages", color: "text-primary",
+      badges: ["Python", "Go", "Java", "JavaScript", "TypeScript", "Bash", "C", "C++", "Rust", "PHP", "PowerShell", "Groovy"] },
+    { title: "☁️ Cloud & DevOps", color: "text-secondary",
+      badges: ["AWS", "Google Cloud", "Azure", "Docker", "Kubernetes", "Terraform", "GitHub Actions", "GitLab CI"] },
+    { title: "🎨 Frontend", color: "text-accent",
+      badges: ["React", "Node.js", "Express.js", "Vite", "HTML5", "CSS3", "Bootstrap", "NestJS"] },
+    { title: "📊 Data & AI/ML", color: "text-primary",
+      badges: ["TensorFlow", "PyTorch", "NumPy", "Pandas", "Matplotlib", "Anaconda"] },
+    { title: "🛠️ Tools & Services", color: "text-secondary",
+      badges: ["Firebase", "Supabase", "MySQL", "Netlify", "Vercel", "Git", "GitHub", "GitLab"] },
+  ];
+
   return (
-    <div className="min-h-screen bg-background font-mono relative">
-      {/* Video Background */}
-      <div className="binary-background">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source src="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F3bc0c79627104715bfbf0026a4e6c4c7?alt=media&token=16c3eb4d-0f8d-4fab-bcb9-c3318a6c8d61&apiKey=79769d392e2d4adaafd2450bdf15ec60" type="video/mp4" />
-        </video>
+    <div className="min-h-screen bg-background relative">
+      <BinaryRain />
 
-        {/* Binary overlay */}
-        {binaryColumns.map((binary, idx) => (
-          <div key={idx} className="binary-column">
-            {binary}
-          </div>
-        ))}
-      </div>
-
-      {/* Content wrapper */}
       <div className="relative z-10">
-        {/* Terminal Header */}
-        <div className="bg-card border-b border-border px-4 py-2 flex items-center gap-2 text-xs backdrop-blur-sm">
+        {/* Terminal Bar */}
+        <div className="bg-[#050505]/90 border-b border-border/20 px-4 py-1.5 flex items-center gap-3 text-xs font-mono backdrop-blur-sm">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+          </div>
+          <span className="text-muted-foreground/40 text-[10px]">─</span>
           <span className="text-primary">$</span>
-          <span className="text-muted-foreground">ayushman@portfolio</span>
+          <span className="text-muted-foreground/60">ayushman@devops</span>
           <span className="text-primary">~</span>
+          <span className="text-muted-foreground/40 text-[10px]">─</span>
+          <span className="text-muted-foreground/30 flex-1 text-right text-[10px] hidden sm:block">./devops-resume.sh</span>
         </div>
 
-        {/* Navigation */}
-        <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-lg border-b border-border/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-3">
-              <span className="text-primary animate-pulse">●</span>
-              <span className="text-foreground font-bold text-sm">ayu-haker/devops</span>
-            </div>
-            <div className="hidden md:flex items-center gap-8 text-muted-foreground">
-              <a href="#about" className="hover:text-primary transition duration-300 relative group">[about]
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#skills" className="hover:text-primary transition duration-300 relative group">[skills]
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#projects" className="hover:text-primary transition duration-300 relative group">[projects]
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#contact" className="hover:text-primary transition duration-300 relative group">[contact]
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-              </a>
-            </div>
-          </div>
-        </nav>
+        <Navbar />
 
         {/* Hero Section */}
-        <section className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 border-b border-border/30">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-left space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="text-xs space-y-2">
-                <div className="text-muted-foreground font-mono">
-                  <span className="text-primary">$</span> whoami
-                </div>
-                <div className="text-foreground/80 font-mono">
-                  <span className="text-primary">&gt;</span> Ayushman Bosu Roy - DevOps Engineer
+        <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] via-transparent to-transparent pointer-events-none" />
+          <div className="max-w-7xl mx-auto relative">
+            <div className="max-w-4xl">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground/60 mb-6 animate-reveal">
+                <Terminal className="w-3.5 h-3.5 text-primary" />
+                <span className="text-primary">$</span>
+                <span>whoami</span>
+                <span className="animate-terminal-blink border-r-2 border-primary h-4" />
+              </div>
+
+              <div className="animate-reveal mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-primary text-xs font-mono mb-4">
+                  <Sparkles className="w-3 h-3" />
+                  DevOps Engineer • Cloud Architect • OSS Contributor
                 </div>
               </div>
 
-              <div>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4">
-                  <span className="text-primary">Building</span> Resilient<br />
-                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Infrastructure</span> at Scale
-                </h1>
-              </div>
+              <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-6 animate-reveal-delay-1">
+                <span className="text-foreground/90">Building</span>
+                <br />
+                <span className="gradient-text-multi">Resilient</span>
+                <br />
+                <span className="text-foreground/90">Infrastructure</span>
+              </h1>
 
-              <div className="text-xs space-y-2 max-w-2xl" style={{textShadow: '0 0 4px rgba(0,0,0,0.8)'}}>
-                <div><span className="text-secondary font-mono">#!/bin/bash</span></div>
-                <div className="text-foreground font-mono"># Kubernetes | Docker | CI/CD | Cloud Infrastructure</div>
-                <div className="text-foreground font-mono"># 5+ years production experience | 500+ deployments</div>
-                <div className="text-foreground font-mono"># Open source | Cybersecurity | Linux &amp; DevOps</div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row items-start gap-3 pt-6">
-                <a href="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F8d9d31d4aa2543049789600df00048a8?alt=media&token=0b254dd8-265e-4a47-bcef-40c725cf986c&apiKey=79769d392e2d4adaafd2450bdf15ec60" download target="_blank" rel="noopener noreferrer" className="group border border-accent text-accent px-6 py-3 hover:bg-accent hover:text-accent-foreground hover:shadow-lg transition-all duration-300 flex items-center gap-2 text-xs font-semibold backdrop-blur-sm">
-                  Download Resume
-                  <ExternalLink className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+              <p className="text-base sm:text-lg text-muted-foreground/50 max-w-xl leading-relaxed mb-8 animate-reveal-delay-2 font-light">
+                DevOps engineer with 5+ years of production experience architecting
+                cloud-native solutions, automating workflows, and building secure,
+                scalable systems.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3 mb-10 animate-reveal-delay-2">
+                <a href="#contact" className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-semibold font-mono overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/30">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Get in Touch
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </a>
-                <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer" className="group border border-primary text-primary px-6 py-3 hover:bg-primary hover:text-primary-foreground hover:shadow-lg transition-all duration-300 flex items-center gap-2 text-xs font-semibold backdrop-blur-sm">
+                <a href="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F8d9d31d4aa2543049789600df00048a8?alt=media&token=0b254dd8-265e-4a47-bcef-40c725cf986c&apiKey=79769d392e2d4adaafd2450bdf15ec60"
+                  target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border hover:border-primary/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all duration-300 group">
+                  <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                  Resume
+                </a>
+                <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border hover:border-primary/50 text-sm font-mono text-muted-foreground hover:text-foreground transition-all duration-300 group">
+                  <Github className="w-4 h-4" />
                   GitHub
-                  <ExternalLink className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  <ArrowUpRight className="w-3 h-3 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                 </a>
-                <a href="#contact" className="group border border-secondary text-secondary px-6 py-3 hover:bg-secondary hover:text-secondary-foreground hover:shadow-lg transition-all duration-300 text-xs font-semibold backdrop-blur-sm">
-                  Get in Touch
-                </a>
+              </div>
+
+              <div className="flex flex-wrap gap-4 text-xs font-mono animate-reveal-delay-3">
+                <div className="flex items-center gap-2 text-muted-foreground/40">
+                  <MapPin className="w-3.5 h-3.5" />
+                  India
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground/40">
+                  <Calendar className="w-3.5 h-3.5" />
+                  5+ Years Exp.
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground/40">
+                  <Star className="w-3.5 h-3.5" />
+                  34 Repositories
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground/40">
+                  <Users className="w-3.5 h-3.5" />
+                  Open Source
+                </div>
               </div>
             </div>
           </div>
         </section>
+
+        {/* Stats Bar */}
+        <div className="border-y border-border/20 bg-[#050505]/50 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <StatCard value="500+" label="Deployments" color="text-primary" />
+              <StatCard value="99.9%" label="Uptime" color="text-secondary" />
+              <StatCard value="5+" label="Years Exp." color="text-accent" />
+              <StatCard value="34" label="Repositories" color="text-primary" />
+            </div>
+          </div>
+        </div>
 
         {/* About Section */}
-        <section id="about" className="py-16 px-4 sm:px-6 lg:px-8 border-b border-border">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-xs space-y-4">
-              <div className="text-muted-foreground">
-                <span className="text-primary">$</span> cat about_me.txt
-              </div>
-              
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  <span className="text-primary">&gt;</span> DevOps engineer with 5+ years building and scaling cloud infrastructure. 
-                  Specialized in Kubernetes, Docker, CI/CD pipelines, and infrastructure automation.
-                </p>
-                
-                <p>
-                  <span className="text-primary">&gt;</span> Passionate about creating reliable, secure, and scalable systems. 
-                  Strong background in cybersecurity, Linux systems, and cloud platforms (AWS, GCP, Azure).
-                </p>
-                
-                <p>
-                  <span className="text-primary">&gt;</span> Active open source contributor. Currently focusing on AI-driven DevOps automation 
-                  and container orchestration at scale.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-border">
-                <div>
-                  <div className="text-primary text-lg font-bold">500+</div>
-                  <div className="text-muted-foreground text-xs">Deployments</div>
-                </div>
-                <div>
-                  <div className="text-secondary text-lg font-bold">99.9%</div>
-                  <div className="text-muted-foreground text-xs">Uptime</div>
-                </div>
-                <div>
-                  <div className="text-accent text-lg font-bold">5+</div>
-                  <div className="text-muted-foreground text-xs">Years Experience</div>
-                </div>
-                <div>
-                  <div className="text-primary text-lg font-bold">34</div>
-                  <div className="text-muted-foreground text-xs">Repositories</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Tech Stack Section */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 border-b border-border">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-xs space-y-6">
-              <div className="text-muted-foreground">
-                <span className="text-primary">$</span> cat tech_stack.txt
-              </div>
-
-              <div>
-                <h3 className="text-foreground font-bold mb-4">💻 Tech Stack:</h3>
-                <div className="flex flex-wrap gap-2">
-                  <img src="https://img.shields.io/badge/Apache%20Groovy-4298B8.svg?style=for-the-badge&logo=Apache+Groovy&logoColor=white" alt="Apache Groovy" />
-                  <img src="https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white" alt="Go" />
-                  <img src="https://img.shields.io/badge/Python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python" />
-                  <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
-                  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript" />
-                  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-                  <img src="https://img.shields.io/badge/bash_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Bash" />
-                  <img src="https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white" alt="C" />
-                  <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++" />
-                  <img src="https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white" alt="Rust" />
-                  <img src="https://img.shields.io/badge/PHP-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
-                  <img src="https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white" alt="PowerShell" />
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-foreground font-bold mb-4">☁️ Cloud & DevOps:</h3>
-                <div className="flex flex-wrap gap-2">
-                  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS" />
-                  <img src="https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white" alt="Google Cloud" />
-                  <img src="https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure" />
-                  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
-                  <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes" />
-                  <img src="https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform" />
-                  <img src="https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions" />
-                  <img src="https://img.shields.io/badge/gitlab%20CI-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white" alt="GitLab CI" />
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-foreground font-bold mb-4">🎨 Frontend & Frameworks:</h3>
-                <div className="flex flex-wrap gap-2">
-                  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
-                  <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS" />
-                  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" alt="Express.js" />
-                  <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-                  <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
-                  <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
-                  <img src="https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" />
-                  <img src="https://img.shields.io/badge/NestJS-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS" />
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-foreground font-bold mb-4">📊 Data & AI/ML:</h3>
-                <div className="flex flex-wrap gap-2">
-                  <img src="https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white" alt="TensorFlow" />
-                  <img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white" alt="PyTorch" />
-                  <img src="https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" />
-                  <img src="https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas" />
-                  <img src="https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black" alt="Matplotlib" />
-                  <img src="https://img.shields.io/badge/Anaconda-%2344A833.svg?style=for-the-badge&logo=anaconda&logoColor=white" alt="Anaconda" />
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-foreground font-bold mb-4">🛠️ Tools & Services:</h3>
-                <div className="flex flex-wrap gap-2">
-                  <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase" alt="Firebase" />
-                  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
-                  <img src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
-                  <img src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" alt="Netlify" />
-                  <img src="https://img.shields.io/badge/Vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
-                  <img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
-                  <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
-                  <img src="https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white" alt="GitLab" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="py-16 px-4 sm:px-6 lg:px-8 border-b border-border">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-xs space-y-6">
-              <div className="text-muted-foreground">
-                <span className="text-primary">$</span> ls -la core_competencies/
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="group border border-border p-5 hover:border-primary hover:bg-card/50 transition-all duration-300 rounded-lg backdrop-blur-sm hover:shadow-lg hover:shadow-primary/20">
-                  <div className="text-primary font-bold mb-3 group-hover:text-secondary transition">☁️ Cloud Platforms</div>
-                  <div className="text-muted-foreground space-y-2 text-xs">
-                    <div className="group-hover:text-foreground transition">→ AWS (EC2, EKS, RDS, Lambda, S3)</div>
-                    <div className="group-hover:text-foreground transition">→ Google Cloud (GKE, Cloud Run)</div>
-                    <div className="group-hover:text-foreground transition">→ Azure, DigitalOcean</div>
-                  </div>
-                </div>
-                
-                <div className="border border-border p-4 hover:border-secondary transition">
-                  <div className="text-secondary font-bold mb-2">Containers &amp; Orchestration</div>
-                  <div className="text-muted-foreground space-y-1 text-xs">
-                    <div>→ Docker, Kubernetes (EKS/GKE/AKS)</div>
-                    <div>→ Helm, Operators</div>
-                    <div>→ Container security &amp; scanning</div>
-                  </div>
-                </div>
-                
-                <div className="border border-border p-4 hover:border-accent transition">
-                  <div className="text-accent font-bold mb-2">CI/CD &amp; Automation</div>
-                  <div className="text-muted-foreground space-y-1 text-xs">
-                    <div>→ GitLab CI, GitHub Actions, Jenkins</div>
-                    <div>→ Terraform, Infrastructure as Code</div>
-                    <div>→ Deployment automation</div>
-                  </div>
-                </div>
-                
-                <div className="border border-border p-4 hover:border-primary transition">
-                  <div className="text-primary font-bold mb-2">Monitoring &amp; Observability</div>
-                  <div className="text-muted-foreground space-y-1 text-xs">
-                    <div>→ Prometheus, Grafana</div>
-                    <div>→ ELK Stack, DataDog</div>
-                    <div>→ Alerting &amp; logging</div>
-                  </div>
-                </div>
-                
-                <div className="border border-border p-4 hover:border-secondary transition">
-                  <div className="text-secondary font-bold mb-2">Security &amp; Compliance</div>
-                  <div className="text-muted-foreground space-y-1 text-xs">
-                    <div>→ Network security, firewalls</div>
-                    <div>→ Secret management (Vault)</div>
-                    <div>→ SIEM, compliance automation</div>
-                  </div>
-                </div>
-                
-                <div className="border border-border p-4 hover:border-accent transition">
-                  <div className="text-accent font-bold mb-2">Programming &amp; Scripting</div>
-                  <div className="text-muted-foreground space-y-1 text-xs">
-                    <div>→ Python, Bash, Go</div>
-                    <div>→ Java, JavaScript, TypeScript</div>
-                    <div>→ Infrastructure automation</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="py-16 px-4 sm:px-6 lg:px-8 border-b border-border">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-xs space-y-6">
-              <div className="text-muted-foreground">
-                <span className="text-primary">$</span> git log --oneline --graph
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {projects.map((project, idx) => (
-                  <a 
-                    key={idx}
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="border border-border p-4 hover:border-foreground transition group"
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <div className={`font-bold mb-1 ${project.color}`}>{project.name}</div>
-                        <div className="text-foreground text-xs">{project.title}</div>
-                      </div>
-                      <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition flex-shrink-0" />
-                    </div>
-                    
-                    <p className="text-muted-foreground text-xs mb-3 leading-relaxed">
-                      {project.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-1">
-                      {project.tech.map((t, i) => (
-                        <span key={i} className="bg-border text-muted-foreground px-2 py-0.5 text-xs">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </a>
+        <AnimatedSection id="about">
+          <SectionHeader cmd="cat about_me.txt" title="About Me" subtitle="DevOps engineer passionate about building resilient infrastructure" />
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground/70 leading-relaxed">
+                <span className="text-primary font-mono">&gt;</span> DevOps engineer with 5+ years building and scaling cloud infrastructure.
+                Specialized in Kubernetes, Docker, CI/CD pipelines, and infrastructure automation.
+              </p>
+              <p className="text-sm text-muted-foreground/70 leading-relaxed">
+                <span className="text-primary font-mono">&gt;</span> Passionate about creating reliable, secure, and scalable systems.
+                Strong background in cybersecurity, Linux systems, and cloud platforms (AWS, GCP, Azure).
+              </p>
+              <p className="text-sm text-muted-foreground/70 leading-relaxed">
+                <span className="text-primary font-mono">&gt;</span> Active open source contributor. Currently focusing on AI-driven DevOps automation
+                and container orchestration at scale.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-4">
+                {["#DevOps", "#Cloud", "#Kubernetes", "#Security", "#Automation", "#OpenSource"].map(t => (
+                  <span key={t} className="tech-badge text-[10px]">{t}</span>
                 ))}
               </div>
-
-              <div className="border-t border-border pt-6 mt-6">
-                <div className="text-muted-foreground mb-4">
-                  <span className="text-primary">$</span> cd github.com/ayu-haker
-                </div>
-                <p className="text-muted-foreground text-xs">
-                  34 repositories • Contributions in Cybersecurity, Cloud, DevOps, Microservices, Monitoring &amp; Automation
-                </p>
-                <a 
-                  href="https://github.com/ayu-haker" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-block mt-3 border border-primary text-primary px-4 py-2 hover:bg-primary hover:text-primary-foreground transition text-xs"
-                >
-                  View All Projects
-                </a>
+            </div>
+            <div className="terminal-card p-6">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground/60 mb-4">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Quick Info
+              </div>
+              <div className="space-y-3">
+                {[
+                  { icon: <MapPin className="w-3.5 h-3.5" />, label: "Location", value: "India" },
+                  { icon: <BookOpen className="w-3.5 h-3.5" />, label: "Education", value: "B.Tech CSE, IIT (AI/ML Minor)" },
+                  { icon: <Award className="w-3.5 h-3.5" />, label: "Certifications", value: "AWS, EC-Council Cybersecurity" },
+                  { icon: <HeartHandshake className="w-3.5 h-3.5" />, label: "Availability", value: "Open to opportunities" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-sm">
+                    <span className="text-primary/60">{item.icon}</span>
+                    <div>
+                      <span className="text-muted-foreground/40 text-xs">{item.label}</span>
+                      <p className="text-foreground/80 text-sm font-medium">{item.value}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
+
+        {/* Experience Section */}
+        <AnimatedSection id="experience">
+          <SectionHeader cmd="ls -la experience/" title="Experience" subtitle="Professional journey & simulations" />
+          <div className="grid md:grid-cols-3 gap-4">
+            {experiences.map((exp, i) => (
+              <ExperienceCard key={i} {...exp} />
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* Skills Section */}
+        <AnimatedSection id="skills">
+          <SectionHeader cmd="cat skills.json" title="Skills & Expertise" subtitle="Core competencies and proficiency levels" />
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            {skillsData.map((group, gi) => (
+              <div key={gi} className="terminal-card p-6">
+                <h3 className="text-sm font-bold text-foreground mb-5 font-mono uppercase tracking-wider">
+                  <span className="text-primary">&gt;</span> {group.category}
+                </h3>
+                <div className="space-y-4">
+                  {group.skills.map((skill, si) => (
+                    <SkillBar key={si} name={skill.name} level={skill.level}
+                      color={gi === 0 ? "bg-primary" : "bg-secondary"} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="text-sm font-bold text-foreground mb-5 font-mono uppercase tracking-wider">
+            <span className="text-primary">&gt;</span> Core Competencies
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {competencies.map((comp, i) => (
+              <div key={i} className={`terminal-card p-5 group cursor-default ${comp.borderColor} ${comp.hoverColor}`}>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className={`${comp.color}`}>{comp.icon}</span>
+                  <h4 className={`text-sm font-bold ${comp.color}`}>{comp.title}</h4>
+                </div>
+                <ul className="space-y-1.5">
+                  {comp.items.map((item, j) => (
+                    <li key={j} className="text-xs text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors flex items-start gap-2">
+                      <span className={`${comp.color} mt-0.5`}>→</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* Tech Stack Section */}
+        <AnimatedSection>
+          <SectionHeader cmd="cat tech_stack.txt" title="Tech Stack" subtitle="Technologies I work with daily" />
+          <div className="space-y-6">
+            {techStackGroups.map((group, gi) => (
+              <div key={gi} className="terminal-card p-5">
+                <h3 className={`text-sm font-bold mb-4 font-mono ${group.color}`}>{group.title}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {group.badges.map((badge, bi) => (
+                    <span key={bi} className="tech-badge text-xs">{badge}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* Projects Section */}
+        <AnimatedSection id="projects">
+          <SectionHeader cmd="git log --oneline --graph" title="Featured Projects" subtitle="Open source contributions & personal work" />
+          <div className="grid md:grid-cols-2 gap-4">
+            {projects.map((project, idx) => (
+              <ProjectCard key={idx} project={project} idx={idx} />
+            ))}
+          </div>
+          <div className="mt-8 terminal-card p-6">
+            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground/60 mb-3">
+              <span className="text-primary">$</span> cd github.com/ayu-haker
+            </div>
+            <p className="text-sm text-muted-foreground/60 mb-4">
+              34 repositories across Cybersecurity, Cloud, DevOps, Microservices, Monitoring & Automation
+            </p>
+            <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-primary/30 text-primary text-sm font-mono hover:bg-primary/10 transition-all duration-300 group">
+              <Github className="w-4 h-4" />
+              View All Projects
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </div>
+        </AnimatedSection>
 
         {/* Contact Section */}
-        <section id="contact" className="py-16 px-4 sm:px-6 lg:px-8 border-b border-border">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-xs space-y-6">
-              <div className="text-muted-foreground">
-                <span className="text-primary">$</span> cat contact_info.txt
+        <AnimatedSection id="contact">
+          <SectionHeader cmd="cat contact.txt" title="Get In Touch" subtitle="Let's build something resilient together" />
+          <div className="max-w-3xl mx-auto">
+            <div className="terminal-card p-8 text-center">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6">
+                <Mail className="w-8 h-8 text-primary" />
               </div>
-              
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  <span className="text-primary">&gt;</span> Looking for a DevOps engineer to optimize your infrastructure?
-                </p>
-                <p>
-                  <span className="text-primary">&gt;</span> Let's discuss how I can help scale your systems, improve deployment pipelines, and build resilient infrastructure.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer" className="border border-primary text-primary px-6 py-2 hover:bg-primary hover:text-primary-foreground transition text-xs flex items-center gap-2">
-                  GitHub
-                  <ExternalLink className="w-3 h-3" />
+              <h3 className="text-2xl font-bold text-foreground mb-2">Say Hello</h3>
+              <p className="text-sm text-muted-foreground/60 mb-8 max-w-md mx-auto">
+                I'm always open to discussing DevOps projects, collaboration opportunities,
+                or just geeking out about infrastructure automation.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+                <button onClick={copyEmail}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary/10 border border-primary/30 text-primary text-sm font-mono hover:bg-primary/20 transition-all duration-300 group">
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  {copied ? 'Copied!' : 'ayushmanbosuroy@gmail.com'}
+                </button>
+                <a href="mailto:ayushmanbosuroy@gmail.com"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-semibold font-mono hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                  Send Email
+                  <ArrowUpRight className="w-4 h-4" />
                 </a>
-                <a href="mailto:ayushman@example.com" className="border border-secondary text-secondary px-6 py-2 hover:bg-secondary hover:text-secondary-foreground transition text-xs">
-                  Email Me
+              </div>
+              <div className="flex items-center justify-center gap-4">
+                <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-muted/30 border border-border hover:border-primary/50 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:-translate-y-0.5">
+                  <Github className="w-5 h-5" />
+                </a>
+                <a href="https://www.linkedin.com/in/ayushman-bosu-roy-24b3842b1/" target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-muted/30 border border-border hover:border-primary/50 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:-translate-y-0.5">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a href="https://wa.me/917063444943" target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-muted/30 border border-border hover:border-primary/50 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:-translate-y-0.5">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17.498 14.382c-.718-.375-2.107-.516-2.429-.516-.322 0-1.064.241-1.504.482-.214.115-.441.236-.588.236-.44 0-3.089-1.532-3.665-2.878-.438-.998.224-1.07.759-1.498.228-.187.418-.374.418-.561 0-.187-.193-.965-.322-1.333-.214-.647-.416-.645-.606-.645-.193 0-.418 0-.644.022-.234.023-.621.099-.955.485-.322.386-1.124 1.098-1.124 2.677 0 1.579 1.15 3.104 1.311 3.314.161.209 2.155 3.358 5.348 4.543.744.276 1.338.448 1.802.579.75.214 1.416.184 1.958.078.644-.128 2.155-.836 2.466-1.653.311-.818.311-1.518.225-1.653-.088-.135-.322-.214-.644-.374z" />
+                    <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.524 3.657 1.43 5.158L2 22l4.842-1.43A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                  </svg>
                 </a>
               </div>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Footer */}
-        <footer className="border-t border-border py-8 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto text-xs text-muted-foreground space-y-3">
-            <div>
-              <span className="text-primary">$</span> logout
+        <footer className="border-t border-border/20 bg-[#050505]/80 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground/40">
+                <span className="text-primary">$</span>
+                <span>logout</span>
+                <span className="animate-terminal-blink border-r-2 border-primary h-4" />
+              </div>
+              <p className="text-xs text-muted-foreground/30 font-mono">
+                © 2025 Ayushman Bosu Roy — Built with resilience
+              </p>
             </div>
-            <p>© 2024 Ayushman Bosu Roy. DevOps Portfolio.</p>
-            <p>
+            <div className="mt-4 text-[10px] text-muted-foreground/20 font-mono text-center sm:text-right">
               <span className="text-primary">❯</span> Cybersecurity • Cloud • DevOps • Building secure and scalable solutions
-            </p>
+            </div>
           </div>
         </footer>
       </div>
