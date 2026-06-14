@@ -1,183 +1,108 @@
-import { useRef, useMemo } from "react";
+import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { TorusKnot, MeshDistortMaterial, Float, Sparkles, Stars, Trail } from "@react-three/drei";
+import { Float } from "@react-three/drei";
 import * as THREE from "three";
 
 function GeometricCore() {
   const meshRef = useRef<THREE.Mesh>(null!);
-  const startTime = useRef(Date.now());
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
     const t = clock.getElapsedTime();
     meshRef.current.rotation.x = t * 0.15;
     meshRef.current.rotation.y = t * 0.25;
-    meshRef.current.rotation.z = t * 0.05;
-    meshRef.current.position.y = Math.sin(t * 0.5) * 0.2;
+    meshRef.current.position.y = Math.sin(t * 0.5) * 0.3;
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <TorusKnot ref={meshRef} args={[1, 0.35, 200, 24]}>
-        <MeshDistortMaterial
+    <Float speed={1} rotationIntensity={0.1} floatIntensity={0.3}>
+      <mesh ref={meshRef}>
+        <torusKnotGeometry args={[1, 0.3, 64, 12]} />
+        <meshStandardMaterial
           color="#00ff00"
           emissive="#00ff00"
-          emissiveIntensity={0.6}
-          roughness={0.2}
-          metalness={0.9}
-          wireframe={false}
+          emissiveIntensity={0.4}
+          roughness={0.3}
+          metalness={0.8}
           transparent
-          opacity={0.92}
-          distort={0.25}
-          speed={2}
+          opacity={0.85}
         />
-      </TorusKnot>
-      <TorusKnot args={[1.15, 0.38, 200, 24]}>
-        <meshBasicMaterial
-          color="#00ff00"
-          wireframe
-          transparent
-          opacity={0.15}
-        />
-      </TorusKnot>
+      </mesh>
     </Float>
   );
 }
 
-function OrbitalRings() {
+function OrbitalRing() {
   const groupRef = useRef<THREE.Group>(null!);
-  const ringCount = 3;
 
   useFrame(({ clock }) => {
     if (!groupRef.current) return;
-    const t = clock.getElapsedTime();
-    groupRef.current.rotation.x = Math.sin(t * 0.2) * 0.3;
-    groupRef.current.rotation.y = t * 0.1;
-    groupRef.current.rotation.z = Math.cos(t * 0.15) * 0.2;
+    groupRef.current.rotation.y = clock.getElapsedTime() * 0.15;
+    groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.15;
   });
 
   return (
     <group ref={groupRef}>
-      {Array.from({ length: ringCount }, (_, i) => {
-        const radius = 1.8 + i * 0.5;
-        const segments = 80;
-        const positions = new Float32Array(segments * 3);
-        for (let j = 0; j < segments; j++) {
-          const theta = (j / segments) * Math.PI * 2;
-          positions[j * 3] = Math.cos(theta) * radius;
-          positions[j * 3 + 1] = Math.sin(theta) * radius * (0.3 + i * 0.15);
-          positions[j * 3 + 2] = Math.sin(theta) * radius * 0.2;
-        }
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        return (
-          <lineSegments key={i} geometry={new THREE.WireframeGeometry(geometry)}>
-            <lineBasicMaterial
-              color={i === 0 ? "#00ff00" : i === 1 ? "#ff9900" : "#0099ff"}
-              transparent
-              opacity={0.2 - i * 0.05}
-            />
-          </lineSegments>
-        );
-      })}
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[2.0, 2.05, 48]} />
+        <meshBasicMaterial color="#00ff00" transparent opacity={0.15} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2.5, 0.3, 0]}>
+        <ringGeometry args={[2.6, 2.65, 48]} />
+        <meshBasicMaterial color="#ff9900" transparent opacity={0.1} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh rotation={[Math.PI / 3, -0.2, 0.4]}>
+        <ringGeometry args={[3.2, 3.25, 48]} />
+        <meshBasicMaterial color="#0099ff" transparent opacity={0.08} side={THREE.DoubleSide} />
+      </mesh>
     </group>
   );
 }
 
-function ParticleField() {
-  const count = 800;
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i++) {
-      pos[i] = (Math.random() - 0.5) * 20;
-    }
-    return pos;
-  }, []);
-  const colors = useMemo(() => {
-    const col = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const c = new THREE.Color().setHSL(0.33 + Math.random() * 0.1, 1, 0.5);
-      col[i * 3] = c.r;
-      col[i * 3 + 1] = c.g;
-      col[i * 3 + 2] = c.b;
-    }
-    return col;
-  }, []);
+function Particles() {
+  const count = 200;
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count * 3; i++) {
+    positions[i] = (Math.random() - 0.5) * 16;
+  }
 
-  const pointsRef = useRef<THREE.Points>(null!);
+  const ref = useRef<THREE.Points>(null!);
   useFrame(({ clock }) => {
-    if (!pointsRef.current) return;
-    const t = clock.getElapsedTime() * 0.02;
-    pointsRef.current.rotation.y = t;
-    pointsRef.current.rotation.x = Math.sin(t * 0.5) * 0.1;
+    if (!ref.current) return;
+    ref.current.rotation.y = clock.getElapsedTime() * 0.01;
   });
 
   return (
-    <points ref={pointsRef}>
+    <points ref={ref}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          count={count}
-          array={colors}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.04}
-        vertexColors
+        size={0.06}
+        color="#00ff00"
         transparent
-        opacity={0.8}
+        opacity={0.5}
         sizeAttenuation
-        blending={THREE.AdditiveBlending}
         depthWrite={false}
       />
     </points>
   );
 }
 
-function GridFloor() {
-  return (
-    <gridHelper
-      args={[20, 40, "#00ff00", "#004400"]}
-      position={[0, -2.5, 0]}
-      rotation={[0, 0, 0]}
-    />
-  );
-}
-
 export default function Hero3D() {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
+    <div className="absolute inset-0 z-0 pointer-events-none" style={{ contain: "strict" }}>
       <Canvas
-        camera={{ position: [0, 0, 4.5], fov: 50 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, 4.5], fov: 45 }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: true, alpha: true, powerPreference: "low-power" }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.3} />
-        <directionalLight position={[5, 5, 5]} intensity={0.5} />
-        <pointLight position={[-5, -5, -5]} intensity={0.3} color="#00ff00" />
-        <pointLight position={[5, -5, 5]} intensity={0.2} color="#0099ff" />
-
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[5, 5, 5]} intensity={0.3} />
         <GeometricCore />
-        <OrbitalRings />
-        <ParticleField />
-        <GridFloor />
-
-        <Sparkles
-          count={40}
-          scale={6}
-          size={2}
-          speed={0.4}
-          color="#00ff00"
-          opacity={0.3}
-        />
+        <OrbitalRing />
+        <Particles />
       </Canvas>
     </div>
   );
