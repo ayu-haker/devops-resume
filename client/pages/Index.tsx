@@ -70,62 +70,73 @@ export default function Index() {
       {/* Content wrapper */}
       <div className="relative z-10">
         {/* Terminal Header */}
-        <div className="bg-card border-b border-border px-4 py-2 flex items-center gap-2 text-xs">
+        <div className="bg-card border-b border-border px-4 py-2 flex items-center gap-2 text-xs backdrop-blur-sm">
           <span className="text-primary">$</span>
           <span className="text-muted-foreground">ayushman@portfolio</span>
           <span className="text-primary">~</span>
         </div>
 
         {/* Navigation */}
-        <nav className="sticky top-0 z-50 bg-card border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <span className="text-primary">❯</span>
-              <span className="text-foreground font-bold">ayu-haker/devops</span>
+        <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-lg border-b border-border/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-3">
+              <span className="text-primary animate-pulse">●</span>
+              <span className="text-foreground font-bold text-sm">ayu-haker/devops</span>
             </div>
-            <div className="hidden md:flex items-center gap-6 text-muted-foreground">
-              <a href="#about" className="hover:text-foreground transition">[about]</a>
-              <a href="#skills" className="hover:text-foreground transition">[skills]</a>
-              <a href="#projects" className="hover:text-foreground transition">[projects]</a>
-              <a href="#contact" className="hover:text-foreground transition">[contact]</a>
+            <div className="hidden md:flex items-center gap-8 text-muted-foreground">
+              <a href="#about" className="hover:text-primary transition duration-300 relative group">[about]
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </a>
+              <a href="#skills" className="hover:text-primary transition duration-300 relative group">[skills]
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </a>
+              <a href="#projects" className="hover:text-primary transition duration-300 relative group">[projects]
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </a>
+              <a href="#contact" className="hover:text-primary transition duration-300 relative group">[contact]
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </a>
             </div>
           </div>
         </nav>
 
         {/* Hero Section */}
-        <section className="pt-16 pb-16 px-4 sm:px-6 lg:px-8 border-b border-border">
+        <section className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 border-b border-border/30">
           <div className="max-w-7xl mx-auto">
-            <div className="text-left space-y-6">
-              <div className="text-xs space-y-1">
-                <div className="text-muted-foreground">
+            <div className="text-left space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <div className="text-xs space-y-2">
+                <div className="text-muted-foreground font-mono">
                   <span className="text-primary">$</span> whoami
                 </div>
-                <div className="text-foreground">
+                <div className="text-foreground/80 font-mono">
                   <span className="text-primary">&gt;</span> Ayushman Bosu Roy - DevOps Engineer
                 </div>
               </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary leading-tight">
-                Building Resilient<br />Infrastructure at Scale
-              </h1>
-              
-              <div className="text-xs space-y-1 max-w-2xl" style={{textShadow: '0 0 4px rgba(0,0,0,0.8)'}}>
-                <div><span className="text-secondary">#!/bin/bash</span></div>
-                <div className="text-foreground"># Kubernetes | Docker | CI/CD | Cloud Infrastructure</div>
-                <div className="text-foreground"># 5+ years production experience | 500+ deployments</div>
-                <div className="text-foreground"># Open source | Cybersecurity | Linux &amp; DevOps</div>
+
+              <div>
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4">
+                  <span className="text-primary">Building</span> Resilient<br />
+                  <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Infrastructure</span> at Scale
+                </h1>
+              </div>
+
+              <div className="text-xs space-y-2 max-w-2xl" style={{textShadow: '0 0 4px rgba(0,0,0,0.8)'}}>
+                <div><span className="text-secondary font-mono">#!/bin/bash</span></div>
+                <div className="text-foreground font-mono"># Kubernetes | Docker | CI/CD | Cloud Infrastructure</div>
+                <div className="text-foreground font-mono"># 5+ years production experience | 500+ deployments</div>
+                <div className="text-foreground font-mono"># Open source | Cybersecurity | Linux &amp; DevOps</div>
               </div>
               
-              <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
-                <a href="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F8d9d31d4aa2543049789600df00048a8?alt=media&token=0b254dd8-265e-4a47-bcef-40c725cf986c&apiKey=79769d392e2d4adaafd2450bdf15ec60" download target="_blank" rel="noopener noreferrer" className="border border-accent text-accent px-6 py-2 hover:bg-accent hover:text-accent-foreground transition flex items-center gap-2 text-xs">
+              <div className="flex flex-col sm:flex-row items-start gap-3 pt-6">
+                <a href="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F8d9d31d4aa2543049789600df00048a8?alt=media&token=0b254dd8-265e-4a47-bcef-40c725cf986c&apiKey=79769d392e2d4adaafd2450bdf15ec60" download target="_blank" rel="noopener noreferrer" className="group border border-accent text-accent px-6 py-3 hover:bg-accent hover:text-accent-foreground hover:shadow-lg transition-all duration-300 flex items-center gap-2 text-xs font-semibold backdrop-blur-sm">
                   Download Resume
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer" className="border border-primary text-primary px-6 py-2 hover:bg-primary hover:text-primary-foreground transition flex items-center gap-2 text-xs">
+                <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer" className="group border border-primary text-primary px-6 py-3 hover:bg-primary hover:text-primary-foreground hover:shadow-lg transition-all duration-300 flex items-center gap-2 text-xs font-semibold backdrop-blur-sm">
                   GitHub
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <a href="#contact" className="border border-secondary text-secondary px-6 py-2 hover:bg-secondary hover:text-secondary-foreground transition text-xs">
+                <a href="#contact" className="group border border-secondary text-secondary px-6 py-3 hover:bg-secondary hover:text-secondary-foreground hover:shadow-lg transition-all duration-300 text-xs font-semibold backdrop-blur-sm">
                   Get in Touch
                 </a>
               </div>
@@ -272,12 +283,12 @@ export default function Index() {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="border border-border p-4 hover:border-primary transition">
-                  <div className="text-primary font-bold mb-2">Cloud Platforms</div>
-                  <div className="text-muted-foreground space-y-1 text-xs">
-                    <div>→ AWS (EC2, EKS, RDS, Lambda, S3)</div>
-                    <div>→ Google Cloud (GKE, Cloud Run)</div>
-                    <div>→ Azure, DigitalOcean</div>
+                <div className="group border border-border p-5 hover:border-primary hover:bg-card/50 transition-all duration-300 rounded-lg backdrop-blur-sm hover:shadow-lg hover:shadow-primary/20">
+                  <div className="text-primary font-bold mb-3 group-hover:text-secondary transition">☁️ Cloud Platforms</div>
+                  <div className="text-muted-foreground space-y-2 text-xs">
+                    <div className="group-hover:text-foreground transition">→ AWS (EC2, EKS, RDS, Lambda, S3)</div>
+                    <div className="group-hover:text-foreground transition">→ Google Cloud (GKE, Cloud Run)</div>
+                    <div className="group-hover:text-foreground transition">→ Azure, DigitalOcean</div>
                   </div>
                 </div>
                 
