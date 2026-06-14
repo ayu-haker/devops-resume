@@ -171,7 +171,6 @@ export default function Hero3D() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 z-0 pointer-events-none"
-      style={{ contain: "strict" }}
     />
   );
 }
