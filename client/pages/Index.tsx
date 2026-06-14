@@ -47,8 +47,19 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background font-mono relative">
-      {/* Binary Background */}
+      {/* Video Background */}
       <div className="binary-background">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F3bc0c79627104715bfbf0026a4e6c4c7?alt=media&token=16c3eb4d-0f8d-4fab-bcb9-c3318a6c8d61&apiKey=79769d392e2d4adaafd2450bdf15ec60" type="video/mp4" />
+        </video>
+
+        {/* Binary overlay */}
         {binaryColumns.map((binary, idx) => (
           <div key={idx} className="binary-column">
             {binary}
