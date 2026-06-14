@@ -117,6 +117,10 @@ export default function Index() {
               </div>
               
               <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
+                <a href="https://cdn.builder.io/o/assets%2F79769d392e2d4adaafd2450bdf15ec60%2F8d9d31d4aa2543049789600df00048a8?alt=media&token=0b254dd8-265e-4a47-bcef-40c725cf986c&apiKey=79769d392e2d4adaafd2450bdf15ec60" download target="_blank" rel="noopener noreferrer" className="border border-accent text-accent px-6 py-2 hover:bg-accent hover:text-accent-foreground transition flex items-center gap-2 text-xs">
+                  Download Resume
+                  <ExternalLink className="w-3 h-3" />
+                </a>
                 <a href="https://github.com/ayu-haker" target="_blank" rel="noopener noreferrer" className="border border-primary text-primary px-6 py-2 hover:bg-primary hover:text-primary-foreground transition flex items-center gap-2 text-xs">
                   GitHub
                   <ExternalLink className="w-3 h-3" />
