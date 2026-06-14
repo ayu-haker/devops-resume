@@ -118,3 +118,143 @@
     white-space: pre;
   }
 }
+
+@keyframes binary-flow-1 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.03;
+  }
+  90% {
+    opacity: 0.03;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes binary-flow-2 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.02;
+  }
+  90% {
+    opacity: 0.02;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes binary-flow-3 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.025;
+  }
+  90% {
+    opacity: 0.025;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes binary-flow-4 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.02;
+  }
+  90% {
+    opacity: 0.02;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.binary-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.binary-column {
+  position: absolute;
+  top: 0;
+  height: 200%;
+  width: 2rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: hsl(120, 100%, 46%);
+  font-weight: bold;
+  white-space: pre-wrap;
+  word-break: break-all;
+  text-align: center;
+}
+
+.binary-column:nth-child(1) {
+  left: 5%;
+  animation: binary-flow-1 20s linear infinite;
+}
+
+.binary-column:nth-child(2) {
+  left: 15%;
+  animation: binary-flow-2 25s linear infinite 2s;
+}
+
+.binary-column:nth-child(3) {
+  left: 25%;
+  animation: binary-flow-3 22s linear infinite 4s;
+}
+
+.binary-column:nth-child(4) {
+  left: 35%;
+  animation: binary-flow-1 24s linear infinite 1s;
+}
+
+.binary-column:nth-child(5) {
+  left: 45%;
+  animation: binary-flow-2 23s linear infinite 3s;
+}
+
+.binary-column:nth-child(6) {
+  left: 55%;
+  animation: binary-flow-3 21s linear infinite 2.5s;
+}
+
+.binary-column:nth-child(7) {
+  left: 65%;
+  animation: binary-flow-4 25s linear infinite 1.5s;
+}
+
+.binary-column:nth-child(8) {
+  left: 75%;
+  animation: binary-flow-1 23s linear infinite 3.5s;
+}
+
+.binary-column:nth-child(9) {
+  left: 85%;
+  animation: binary-flow-2 24s linear infinite 2s;
+}
+
+.binary-column:nth-child(10) {
+  left: 95%;
+  animation: binary-flow-3 22s linear infinite 4.5s;
+}
