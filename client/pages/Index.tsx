@@ -151,14 +151,14 @@ const ExperienceCard = ({
 
 const SkillBar = ({ name, level, color = "bg-primary" }: { name: string; level: number; color?: string }) => (
   <div className="group">
-    <div className="flex justify-between items-center mb-1.5">
-      <span className="text-xs font-mono text-muted-foreground/80 group-hover:text-foreground transition-colors">{name}</span>
-      <span className="text-[10px] font-mono text-muted-foreground/40">{level}%</span>
+    <div className="flex justify-between items-center mb-2">
+      <span className="text-sm font-mono text-foreground/90 group-hover:text-primary transition-colors font-medium">{name}</span>
+      <span className="text-xs font-mono text-foreground/70 font-bold">{level}%</span>
     </div>
-    <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
-      <div className={`h-full rounded-full ${color} transition-all duration-1000 relative`}
+    <div className="h-3 rounded-full bg-[#1a1a1a] border border-border/40 overflow-hidden">
+      <div className={`h-full rounded-full ${color} transition-all duration-1000 relative shadow-lg`}
         style={{ width: `${level}%` }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/25 to-transparent animate-shimmer" />
       </div>
     </div>
   </div>
